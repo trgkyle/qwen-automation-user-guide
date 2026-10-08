@@ -9,6 +9,7 @@
 ## ✨ Các tính năng chính
 
 * **🚀 Xử lý hàng loạt:** Xếp hàng lượng lớn prompt và để tiện ích tự động thực hiện quy trình gửi và tạo nội dung.
+* **🧩 Workflow (giao diện kéo thả trực quan):** Nối prompt, ảnh và các bước tạo trên một bảng vẽ — ví dụ tạo ảnh rồi tự động dùng chính ảnh đó để tạo video. Lưu nhiều workflow, chạy từng node hoặc chạy tất cả, nhập/xuất workflow thành file.
 * **🎬 Tự động Văn bản thành Video:** Chuyển đổi mô tả văn bản thành video chất lượng cao một cách tự động.
 * **🎬 Khung hình thành Video (Ảnh thành Video):** Sử dụng ảnh tĩnh làm đầu vào và thêm hiệu ứng chuyển động tự động bằng prompt. Hỗ trợ chỉ sử dụng khung hình đầu hoặc cả khung hình đầu & cuối.
 * **🎬 Thành phần thành Video:** Tải lên tối đa 10 ảnh nguồn cho mỗi prompt để tạo các video hoạt ảnh giao diện phức tạp.
@@ -95,6 +96,85 @@ Cận cảnh bản đồ ba chiều.
 3. Nhập prompt mô tả các chỉnh sửa hoặc thay đổi phong cách mong muốn.
 4. Nhấp **Chạy**.
 
+### 🧩 Workflow (Giao diện kéo thả trực quan)
+
+Workflow là giao diện kéo thả trực quan cho các quy trình nhiều bước — ví dụ: tạo vài ảnh, dùng chính các ảnh đó để tạo video, rồi nối tiếp mỗi video bằng một prompt khác. Workflow mở trong cửa sổ riêng và chạy trên tab chat.qwen.ai bạn đang mở.
+
+#### Mở Workflow
+
+* Nhấn **Workflow** trong tab Điều khiển (hàng nút dưới cùng).
+* Đã nhập prompt hoặc tải ảnh ở side panel? Rê chuột vào **Workflow** rồi nhấn **Chuyển sang workflow**: prompt, chế độ của từng prompt và ảnh sẽ thành các node trong workflow, sẵn sàng để chạy.
+
+#### Màn hình
+
+| Khu vực | Gồm những gì |
+| :--- | :--- |
+| **Bên trái** | **Node** (bấm hoặc kéo vào bảng vẽ) và **Workflow của bạn** (danh sách workflow đã lưu) |
+| **Thanh trên cùng** | Công cụ bảng vẽ: Hoàn tác/Làm lại, **Tự sắp xếp**, vừa khung nhìn, **Ví dụ**, xoá. Bên phải: nút **Chi tiết**, **Phím tắt** và trạng thái tab chat.qwen.ai |
+| **Bảng vẽ** | Các node của bạn. Góc trên trái: **Chạy tất cả** (và **Dừng** khi đang chạy) và **Bật chạy nền** |
+
+Nút **Chi tiết** cho biết điều cần chú ý: **Vấn đề (n)** màu đỏ/vàng khi có gì chặn việc chạy, **Đang chạy 3/8** khi đang tạo. Bấm vào để mở bảng gồm các vấn đề (bấm một vấn đề để nhảy tới node), tiến độ, kế hoạch chạy và cài đặt đang dùng.
+
+#### Các loại node
+
+| Node | Chức năng |
+| :--- | :--- |
+| **Nhập prompt** | Một hoặc nhiều prompt, tách nhau bằng **dòng trống** |
+| **Tải ảnh lên** | Ảnh của bạn (thả file vào node). Rê chuột vào ảnh: 🔍 để xem lớn, ✕ để xoá, nút kéo ở góc để đổi thứ tự. Thứ tự (hoặc menu sắp xếp) quyết định prompt nào nhận ảnh nào |
+| **Tạo ảnh** | Văn bản thành Hình ảnh, hoặc Hình ảnh thành Hình ảnh khi có ảnh nối vào. Tuỳ chọn: **Chế độ ảnh theo prompt**, **Số ảnh đầu vào tối đa mỗi Prompt**, **Tự động thêm ảnh nhân vật** |
+| **Tạo video** | Văn bản thành Video, hoặc khi có ảnh nối vào: **Khung hình thành Video** / **Thành phần thành Video**. Tuỳ chọn: **Chế độ video theo prompt**, số ảnh mỗi prompt (dùng chung cài đặt với side panel), **Tự động thêm ảnh nhân vật** (Thành phần thành Video) |
+
+Node Tạo ảnh / Tạo video tự đặt tên theo prompt đầu tiên (`image_…` / `video_…`). Mỗi dòng prompt hiển thị các ảnh mà prompt đó sẽ nhận, để bạn kiểm tra trước khi chạy. Khung xem trước theo **tỉ lệ khung hình** trong cài đặt (node 9:16 hẹp và cao hơn).
+
+#### Nối các node
+
+Kéo từ chấm tròn bên phải của một node và **thả vào bất kỳ chỗ nào trên node kia** — cổng phù hợp sẽ được chọn tự động. Trong lúc kéo, node nào nối được sẽ sáng viền.
+
+| Từ | Đến | Ý nghĩa |
+| :--- | :--- | :--- |
+| Nhập prompt | Tạo ảnh / Tạo video | Các prompt cần tạo |
+| Tải ảnh lên | Tạo ảnh / Tạo video | Ảnh tham chiếu, khung hình bắt đầu hoặc thành phần |
+| Tạo ảnh | Tạo ảnh / Tạo video | **Ảnh vừa tạo** trở thành ảnh đầu vào của node đó (node đó chạy khi ảnh đã sẵn sàng) |
+| Tạo video — cổng **khung cuối** | Tạo video | Video sau **nối tiếp từ khung hình cuối** của video trước |
+| Tạo video — cổng **khung cuối** | Tạo ảnh | **Khung hình cuối** của mỗi video trở thành ảnh đầu vào (chạy khi video đã sẵn sàng) |
+
+#### Chạy
+
+* **Chạy tất cả** (góc trên trái, hoặc `Ctrl/⌘ + Enter`) chạy cả workflow theo đúng thứ tự: node nào cần ảnh được tạo sẽ tự chạy khi ảnh đã có.
+* Nếu **Chạy tất cả** bị khoá, thanh trên cùng hiện **Vấn đề (n)**: bấm vào để xem cần sửa gì.
+* Mỗi node Tạo ảnh / Tạo video có nút **Chạy** riêng để chỉ chạy node đó. Nút bị khoá cho tới khi các node nó phụ thuộc chạy xong (rê chuột để xem lý do).
+* **Dừng** huỷ những gì đang chạy.
+* Khi đang chạy, các đường nối vào node đang tạo sẽ sáng lên và có dòng chảy, để bạn thấy workflow đang ở bước nào.
+
+> ⚠️ **Chrome tạm dừng chat.qwen.ai khi tab không hiển thị** (ví dụ cửa sổ workflow che toàn màn hình). Nhấn **Bật chạy nền** (ngay dưới **Chạy tất cả** trong workflow, hoặc ở side panel), rồi chọn tab chat.qwen.ai trong hộp thoại của Chrome. Việc này chia sẻ tab chat.qwen.ai (không ghi lại hay gửi đi đâu) để chat.qwen.ai tiếp tục tạo khi bị cửa sổ khác che. Nhãn xanh **Đang chạy nền** cho biết đã bật; nhấn ✕ để tắt.
+
+#### Kết quả
+
+Kết quả hiện ngay trong node Tạo ảnh / Tạo video. Rê chuột vào kết quả: 🔍 để xem lớn, ✕ để xoá (nút cục tẩy xoá toàn bộ kết quả của node). Video tự phát khi rê chuột. File vẫn được tải xuống như bình thường.
+
+Node phía sau dùng **kết quả đầu tiên của mỗi prompt**. Muốn chọn kết quả khác, kéo nút ở góc trên trái của một kết quả thả lên kết quả khác để đổi chỗ (ảnh và video).
+
+#### Quản lý workflow
+
+Trong **Workflow của bạn** (bên trái): **Tạo mới**, **Nhập**, và menu **⋯** của từng workflow — **Đổi tên** (hoặc bấm đúp vào tên), **Nhân bản**, **Xuất file**, **Xoá**. Mọi thay đổi được lưu tự động.
+
+* **Xuất file** tải về file `.json`. Đầu file có các dòng chú thích `//` mô tả mọi node, thuộc tính và cách nối, nên bạn có thể đưa file cho trợ lý AI và nhờ AI viết workflow mới. Các dòng `//` được bỏ đi khi nhập.
+* **Nhập** file bằng nút Nhập, hoặc đơn giản **kéo file `.json` thả vào bảng vẽ**.
+
+#### Phím tắt khi chỉnh sửa
+
+Nhấn **Phím tắt** trên thanh trên cùng (hoặc phím `?`) để xem tất cả.
+
+| Thao tác | Phím |
+| :--- | :--- |
+| Hoàn tác / Làm lại | `Ctrl/⌘ + Z` / `Ctrl/⌘ + Shift + Z` |
+| Sao chép / Cắt / Dán node (dán được sang workflow khác) | `Ctrl/⌘ + C / X / V` |
+| Nhân bản phần đang chọn | `Ctrl/⌘ + D` |
+| Chọn tất cả / Chọn thêm / Quét chọn | `Ctrl/⌘ + A` / `Ctrl/⌘ + bấm` / `Shift + kéo` |
+| Tự sắp xếp | `Shift + A` |
+| Xoá phần đang chọn | `Delete` |
+| Chạy tất cả / Chạy nền | `Ctrl/⌘ + Enter` / `Ctrl/⌘ + Shift + Enter` |
+
 ---
 
 ## ⚙️ Cấu hình Cài đặt
@@ -134,6 +214,10 @@ Truy cập tab **Cài đặt** trong Side Panel để tùy chỉnh hành vi tự
 | **Lỗi khi tạo** | Nhấp vào nút **Sửa lỗi** trên giao diện tiện ích. Tiện ích sẽ tự động thực hiện lại các tác vụ dựa trên Số lần thử lại tối đa được cấu hình. |
 | **Tải xuống không hoạt động** | Hãy **TẮT** tùy chọn "Hỏi nơi lưu từng tệp trước khi tải xuống" (Ask where to save each file before downloading) trong phần Cài đặt của Chrome. |
 | **Lỗi xác thực/tài khoản** | Đảm bảo bạn đã đăng nhập tài khoản trên `chat.qwen.ai` và tài khoản đăng ký gói của tiện ích (hiển thị trên Thanh thông tin gói). |
+| **Workflow: kết quả đứng mãi ở "Đang tạo"** | Chrome đã tạm dừng tab chat.qwen.ai bị che. Bật **Bật chạy nền** (hoặc **Chạy nền**), hoặc để tab chat.qwen.ai hiển thị. |
+| **Workflow: nút Chạy của một node bị mờ** | Rê chuột vào nút: chạy node mà nó phụ thuộc trước, hoặc sửa vấn đề được báo (ví dụ chưa nối prompt). |
+| **Workflow: Chạy tất cả bị khoá** | Bấm **Vấn đề (n)** trên thanh trên cùng để xem cần sửa gì; bấm một vấn đề để nhảy tới node đó. |
+| **Workflow: "Không tìm thấy tab chat.qwen.ai"** | Mở [chat.qwen.ai](https://chat.qwen.ai) trong một tab (chấm xanh trên thanh trên cùng cho biết đã kết nối). |
 
 ---
 
